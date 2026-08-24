@@ -172,7 +172,7 @@ header{padding:9px 10px!important}
 }
 </style>
 
-<meta name="app-version" content="buttons-fix-20260825-0304"></head>
+<meta name="app-version" content="buttons-fix-20260825-0308-cache-reset"></head>
 <body>
 <div class="app">
 <header>
@@ -502,6 +502,30 @@ function saveRide(){
 
 window.addEventListener("error",function(e){console.error(e.error||e.message)});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
+
+document.addEventListener("click",function(e){
+  const b=e.target.closest("button");
+  if(!b)return;
+
+  if(b.matches('nav button')){
+    const txt=(b.textContent||"");
+    if(txt.includes("کور")||txt.includes("Home")||txt.includes("خانه")) return go("home",b);
+    if(txt.includes("اعلان")||txt.includes("Post")) return go("post",b);
+    if(txt.includes("حساب")||txt.includes("Account")) return go("account",b);
+    if(txt.includes("اډمین")||txt.includes("Admin")||txt.includes("ادمین")) return go("admin",b);
+  }
+
+  if(b.id==="loadMode") return setMode("load");
+  if(b.id==="truckMode") return setMode("truck");
+
+  const t=(b.getAttribute("data-t")||"");
+  if(t==="install"||t==="installFull") return installApp();
+  if(t==="saveAd") return savePost();
+  if(t==="sendApproval") return register();
+  if(t==="login") return unlock();
+  if(t==="requestRide") return saveRide();
+});
+
 </script>
 </body>
 </html>
