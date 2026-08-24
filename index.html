@@ -174,7 +174,7 @@ header{padding:9px 10px!important}
     <select id="lang" class="lang" onchange="setLang(this.value)">
       <option value="ps">پښتو</option><option value="fa">دری</option><option value="en">English</option>
     </select>
-    <button class="install-top" id="installTop" onclick="installApp()" data-t="install">نصب</button>
+    <button type="button" class="install-top" id="installTop" onclick="installApp()" data-t="install">نصب</button>
   </div>
 </header>
 
@@ -183,10 +183,10 @@ header{padding:9px 10px!important}
   <section class="section" style="padding-top:14px">
     <div class="section-title"><h2 data-t="chooseService">خدمت وټاکئ</h2><small data-t="allAf">ټول افغانستان</small></div>
     <div class="service-choice">
-      <button class="service-big active" onclick="showService('bar',this)">
+      <button type="button" class="service-big active" onclick="showService('bar',this)">
         <span>📦</span><b data-t="bar">بار</b><small data-t="barSub">د بار وړلو ټول موټرونه</small>
       </button>
-      <button class="service-big" onclick="showService('ride',this)">
+      <button type="button" class="service-big" onclick="showService('ride',this)">
         <span>🚖</span><b data-t="ride">سواري</b><small data-t="rideSub">ټکسي، رکشه او ښاري سفر</small>
       </button>
     </div>
@@ -202,8 +202,8 @@ header{padding:9px 10px!important}
     <img src="https://www.nextmobility.jp/wp-content/uploads/2018/06/Isuzu-released-the-environmental-performance-of-the-heavy-duty-truck-Giga-tractor-improved-20180625-1.jpg" alt="ټېلر" referrerpolicy="no-referrer">
   </div>
   <div class="hero-actions hero-actions-fixed">
-    <button class="btn gold" onclick="go('post');setMode('load')" data-t="haveLoad">📦 بار لرم</button>
-    <button class="btn outline" onclick="go('post');setMode('truck')" data-t="emptyTruck">🚚 موټر خالي دی</button>
+    <button type="button" class="btn gold" onclick="go('post');setMode('load')" data-t="haveLoad">📦 بار لرم</button>
+    <button type="button" class="btn outline" onclick="go('post');setMode('truck')" data-t="emptyTruck">🚚 موټر خالي دی</button>
   </div>
 </section>
 
@@ -273,7 +273,7 @@ header{padding:9px 10px!important}
         <label><span data-t="passengers">د کسانو شمېر</span><input id="ridePeople" inputmode="numeric" placeholder="مثلاً 2"></label>
         <label><span data-t="phone">موبایل شمېره</span><input id="ridePhone" inputmode="tel"></label>
       </div>
-      <button class="btn gold" style="width:100%;margin-top:12px" onclick="saveRide()" data-t="requestRide">سواري وغواړه</button>
+      <button type="button" class="btn gold" style="width:100%;margin-top:12px" onclick="saveRide()" data-t="requestRide">سواري وغواړه</button>
     </div>
   </section>
 
@@ -281,7 +281,7 @@ header{padding:9px 10px!important}
     <div class="section-title"><h2 data-t="recent">تازه اعلانونه</h2><small data-t="more">نور وګوره</small></div>
     <div id="loadList"></div>
     <div class="installbar">
-      <button class="btn outline" onclick="installApp()" data-t="installFull">⬇ اپلیکیشن نصب کړه</button>
+      <button type="button" class="btn outline" onclick="installApp()" data-t="installFull">⬇ اپلیکیشن نصب کړه</button>
     </div>
   </section>
 </main>
@@ -290,7 +290,7 @@ header{padding:9px 10px!important}
 <section class="section">
   <div class="section-title"><h2 id="postTitle" data-t="newLoad">نوی بار ثبت کړئ</h2></div>
   <div class="card">
-    <div class="switch"><button id="loadMode" class="on" onclick="setMode('load')" data-t="haveLoad">📦 بار لرم</button><button id="truckMode" onclick="setMode('truck')" data-t="emptyTruck">🚚 موټر خالي دی</button></div>
+    <div class="switch"><button type="button" id="loadMode" class="on" onclick="setMode('load')" data-t="haveLoad">📦 بار لرم</button><button type="button" id="truckMode" onclick="setMode('truck')" data-t="emptyTruck">🚚 موټر خالي دی</button></div>
     <div class="formgrid">
       <label><span data-t="fromProvince">له کوم ولایت څخه؟</span><select id="fromProvince"></select></label>
       <label><span data-t="districtCity">ولسوالي/ښار</span><input id="fromDistrict"></label>
@@ -304,7 +304,7 @@ header{padding:9px 10px!important}
       <label><span data-t="fare">کرایه</span><input id="fare" inputmode="numeric"></label>
       <label class="full"><span data-t="details">نور معلومات</span><textarea id="details"></textarea></label>
     </div>
-    <button class="btn gold" style="width:100%;margin-top:12px" onclick="savePost()" data-t="saveAd">اعلان ثبت کړه</button>
+    <button type="button" class="btn gold" style="width:100%;margin-top:12px" onclick="savePost()" data-t="saveAd">اعلان ثبت کړه</button>
   </div>
   <div class="notice" data-t="gpsNote">📍 د نقشې/GPS لپاره جوړښت تیار دی؛ حقیقي ژوندی GPS به د آنلاین نقشې خدمت سره وصل شي.</div>
 </section>
@@ -323,7 +323,7 @@ header{padding:9px 10px!important}
       <label><span data-t="idPhoto">د تذکرې عکس</span><input id="idPhoto" type="file" accept="image/*"></label>
       <label><span data-t="selfie">تازه سلفي</span><input id="selfie" type="file" accept="image/*" capture="user"></label>
     </div>
-    <button class="btn gold" style="width:100%;margin-top:12px" onclick="register()" data-t="sendApproval">د تایید لپاره واستوه</button>
+    <button type="button" class="btn gold" style="width:100%;margin-top:12px" onclick="register()" data-t="sendApproval">د تایید لپاره واستوه</button>
   </div>
   <div id="accountStatus"></div>
 </section>
@@ -334,13 +334,13 @@ header{padding:9px 10px!important}
   <div class="section-title"><h2 data-t="admin">🔐 پټ اډمین</h2></div>
   <div id="adminLock" class="adminbox">
     <label><span>PIN</span><input id="pin" type="password" inputmode="numeric"></label>
-    <button class="btn gold" style="width:100%;margin-top:10px" onclick="unlock()" data-t="login">ننوتل</button>
+    <button type="button" class="btn gold" style="width:100%;margin-top:10px" onclick="unlock()" data-t="login">ننوتل</button>
   </div>
   <div id="adminPanel" class="hidden">
     <div class="card">
       <h3 data-t="feeSystem">د فیس سیستم</h3>
       <p><span data-t="status">حالت</span>: <span id="feeState" class="status ok">وړیا</span></p>
-      <div class="switch"><button class="on" onclick="setFee(false)" data-t="free">وړیا</button><button onclick="setFee(true)" data-t="monthly">میاشتنی فیس</button></div>
+      <div class="switch"><button type="button" class="on" onclick="setFee(false)" data-t="free">وړیا</button><button type="button" onclick="setFee(true)" data-t="monthly">میاشتنی فیس</button></div>
     </div>
     <div class="section-title"><h2 data-t="pendingUsers">د تایید په انتظار حسابونه</h2></div><div id="pendingUsers"></div>
     <div class="section-title"><h2 data-t="approvedUsers">تایید شوي حسابونه</h2></div><div id="allUsers"></div>
@@ -350,10 +350,10 @@ header{padding:9px 10px!important}
 </div>
 
 <nav><div class="navin">
-  <button class="active" onclick="go('home',this)"><span>🏠</span><i data-t="home">کور</i></button>
-  <button onclick="go('post',this)"><span>➕</span><i data-t="ad">اعلان</i></button>
-  <button onclick="go('account',this)"><span>👤</span><i data-t="account">حساب</i></button>
-  <button onclick="go('admin',this)"><span>🔒</span><i data-t="adminShort">اډمین</i></button>
+  <button type="button" class="active" onclick="go('home',this)"><span>🏠</span><i data-t="home">کور</i></button>
+  <button type="button" onclick="go('post',this)"><span>➕</span><i data-t="ad">اعلان</i></button>
+  <button type="button" onclick="go('account',this)"><span>👤</span><i data-t="account">حساب</i></button>
+  <button type="button" onclick="go('admin',this)"><span>🔒</span><i data-t="adminShort">اډمین</i></button>
 </div></nav>
 <div id="toast" class="toast"></div>
 
@@ -367,31 +367,89 @@ fa:{brand:"ترانسپورت آنلاین اسحاق‌زاده",install:"نص�
 en:{brand:"Ishaqzada Online Transport",install:"Install",hero1:"Send your load,",hero2:"find a vehicle",heroP:"From one street to another, village, district and anywhere across Afghanistan.",haveLoad:"📦 I have a load",emptyTruck:"🚚 Empty vehicle",loc:"Exact location",search:"Find loads",messages:"Messages",verified:"Verified users",vehicles:"Vehicle types",allAf:"All Afghanistan",zaranj:"Zaranj & Suzuki",mazda:"Cargo Mazda",pickup:"Pickup",lorry:"Lorry",tenWheel:"10-Wheeler",trailer:"Trailer",cityLoad:"City load",mediumLoad:"Medium load",smallLoad:"Small load",heavyLoad:"Heavy load",largeLoad:"Large load",largestLoad:"Largest load",recent:"Recent listings",more:"View more",installFull:"⬇ Install app",newLoad:"Post a new load",fromProvince:"From province",districtCity:"District/City",pickupPoint:"Exact pickup point",toProvince:"To province",dropPoint:"Exact delivery point",vehicleType:"Vehicle type",weight:"Weight/Capacity",phone:"Mobile number",fare:"Fare",details:"More details",saveAd:"Post listing",gpsNote:"📍 GPS/map structure is ready; live GPS will connect to an online map service.",newAccount:"New account",approvalReq:"Admin approval required",name:"Name",father:"Father name",province:"Province",district:"District",idPhoto:"Tazkira photo",selfie:"Fresh selfie",sendApproval:"Send for approval",admin:"🔐 Hidden Admin",login:"Login",feeSystem:"Fee system",status:"Status",free:"Free",monthly:"Monthly fee",pendingUsers:"Pending accounts",approvedUsers:"Approved accounts",home:"Home",ad:"Post",account:"Account",adminShort:"Admin",chooseService:"Choose service",bar:"Cargo",barSub:"All freight vehicles",ride:"Ride",rideSub:"Taxi, rickshaw and city rides",rideVehicles:"Passenger vehicles",cityRide:"City and nearby rides",taxi:"City taxi",taxiSub:"Within the city",rickshaw:"Rickshaw",rickshawSub:"Short distance",rentalCar:"Rental car",rentalSub:"Private ride",passengers:"Passengers",requestRide:"Request ride"}
 };
 let lang="ps",mode="load",deferredPrompt=null;
-let db=JSON.parse(localStorage.getItem("izbar_db")||'{"users":[],"posts":[],"feeMode":false}');
+let db;
+try{
+  db=JSON.parse(localStorage.getItem("izbar_db")||'{"users":[],"posts":[],"feeMode":false}');
+  if(!db || !Array.isArray(db.users) || !Array.isArray(db.posts)) throw new Error("bad db");
+}catch(e){
+  db={users:[],posts:[],feeMode:false};
+  try{localStorage.setItem("izbar_db",JSON.stringify(db))}catch(_){}
+}
 function persist(){localStorage.setItem("izbar_db",JSON.stringify(db))}
 function setLang(l){lang=l;document.documentElement.lang=l;document.documentElement.dir=l==="en"?"ltr":"rtl";document.querySelectorAll("[data-t]").forEach(el=>{let k=el.dataset.t;if(T[l][k])el.textContent=T[l][k]});fillSelects();fillVehicles();renderLoads();renderAdmin()}
 function fillSelects(){let arr=lang==="en"?provincesEn:(lang==="fa"?provincesFa:provincesPs),prompt=lang==="en"?"Select province":lang==="fa"?"ولایت را انتخاب کنید":"ولایت وټاکئ";["fromProvince","toProvince","regProvince"].forEach(id=>document.getElementById(id).innerHTML=`<option value="">${prompt}</option>`+arr.map(x=>`<option>${x}</option>`).join(""))}
-function fillVehicles(){let arr=lang==="en"?["Zaranj & Suzuki","Cargo Mazda","Pickup","Datsun","Lorry","10-Wheeler","Trailer"]:lang==="fa"?["زرنج و سوزوکی","مزدا بادی‌دار","پیکپ","داتسن","لاری","ده‌تایره","تریلر"]:["زرنج او سوزوکي","مازدا باډي والا","پیکپ","ډاټسن","لارۍ","لس ټایره","ټېلر"];vehicle.innerHTML=arr.map(x=>`<option>${x}</option>`).join("")}
+function fillVehicles(){
+  let arr=lang==="en"?["Zaranj & Suzuki","Cargo Mazda","Pickup","Datsun","Lorry","10-Wheeler","Trailer"]:lang==="fa"?["زرنج و سوزوکی","مزدا بادی‌دار","پیکپ","داتسن","لاری","ده‌تایره","تریلر"]:["زرنج او سوزوکي","مازدا باډي والا","پیکپ","ډاټسن","لارۍ","لس ټایره","ټېلر"];
+  const el=document.getElementById("vehicle");
+  if(el) el.innerHTML=arr.map(x=>`<option>${x}</option>`).join("");
+}
 function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",2200)}
-function go(id,el){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");if(id==="home")renderLoads();if(id==="account")renderAccount();if(id==="admin")renderAdmin();window.scrollTo(0,0)}
-function setMode(m){mode=m;loadMode.classList.toggle("on",m==="load");truckMode.classList.toggle("on",m==="truck");postTitle.textContent=m==="load"?T[lang].newLoad:T[lang].emptyTruck}
-function savePost(){let p={id:Date.now(),mode,from:fromProvince.value,fd:fromDistrict.value,pickup:pickup.value,to:toProvince.value,td:toDistrict.value,dropoff:dropoff.value,vehicle:vehicle.value,weight:weight.value,phone:phone.value,fare:fare.value,details:details.value};if(!p.from||!p.to||!p.pickup||!p.dropoff||!p.phone)return toast(lang==="en"?"Complete required fields":lang==="fa"?"معلومات ضروری را تکمیل کنید":"ضروري معلومات بشپړ کړئ");db.posts.unshift(p);persist();toast(lang==="en"?"Listing posted":lang==="fa"?"اعلان ثبت شد":"اعلان ثبت شو");go("home")}
-function register(){if(!regName.value||!regFather.value||!regProvince.value||!regDistrict.value||!regPhone.value||!idPhoto.files[0]||!selfie.files[0])return toast(lang==="en"?"All fields, ID and selfie are required":lang==="fa"?"تمام معلومات، تذکره و سلفی ضروری است":"ټول معلومات، تذکره او سلفي ضروري دي");db.users.push({id:Date.now(),name:regName.value,father:regFather.value,province:regProvince.value,district:regDistrict.value,phone:regPhone.value,status:"pending",paidUntil:null});persist();toast(lang==="en"?"Waiting for admin approval":lang==="fa"?"در انتظار تایید ادمین":"د اډمین تایید ته انتظار");renderAccount()}
-function renderAccount(){let u=db.users[db.users.length-1];accountStatus.innerHTML=u?`<div class="card"><b>${u.name}</b><p>${T[lang].status}: <span class="status ${u.status==="approved"?"ok":"wait"}">${u.status==="approved"?(lang==="en"?"Approved":lang==="fa"?"تایید شده":"تایید شوی"):(lang==="en"?"Pending":lang==="fa"?"در انتظار":"په انتظار")}</span></p></div>`:""}
+function go(id,el){
+  const page=document.getElementById(id);
+  if(!page)return;
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  page.classList.add("active");
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+  if(el)el.classList.add("active");
+  if(id==="home")renderLoads();
+  if(id==="account")renderAccount();
+  if(id==="admin")renderAdmin();
+  try{window.scrollTo({top:0,behavior:"instant"})}catch(e){window.scrollTo(0,0)}
+}
+function setMode(m){
+  mode=m;
+  const load=document.getElementById("loadMode");
+  const truck=document.getElementById("truckMode");
+  const title=document.getElementById("postTitle");
+  if(load) load.classList.toggle("on",m==="load");
+  if(truck) truck.classList.toggle("on",m==="truck");
+  if(title) title.textContent=m==="load"?T[lang].newLoad:T[lang].emptyTruck;
+}
+function savePost(){
+  const v=id=>document.getElementById(id)?.value||"";
+  let p={id:Date.now(),mode,from:v("fromProvince"),fd:v("fromDistrict"),pickup:v("pickup"),to:v("toProvince"),td:v("toDistrict"),dropoff:v("dropoff"),vehicle:v("vehicle"),weight:v("weight"),phone:v("phone"),fare:v("fare"),details:v("details")};
+  if(!p.from||!p.to||!p.pickup||!p.dropoff||!p.phone)return toast(lang==="en"?"Complete required fields":lang==="fa"?"معلومات ضروری را تکمیل کنید":"ضروري معلومات بشپړ کړئ");
+  db.posts.unshift(p);persist();toast(lang==="en"?"Listing posted":lang==="fa"?"اعلان ثبت شد":"اعلان ثبت شو");go("home");
+}
+function register(){
+  const g=id=>document.getElementById(id);
+  const name=g("regName"),father=g("regFather"),province=g("regProvince"),district=g("regDistrict"),phoneEl=g("regPhone"),idp=g("idPhoto"),self=g("selfie");
+  if(!name?.value||!father?.value||!province?.value||!district?.value||!phoneEl?.value||!idp?.files?.[0]||!self?.files?.[0])return toast(lang==="en"?"All fields, ID and selfie are required":lang==="fa"?"تمام معلومات، تذکره و سلفی ضروری است":"ټول معلومات، تذکره او سلفي ضروري دي");
+  db.users.push({id:Date.now(),name:name.value,father:father.value,province:province.value,district:district.value,phone:phoneEl.value,status:"pending",paidUntil:null});
+  persist();toast(lang==="en"?"Waiting for admin approval":lang==="fa"?"در انتظار تایید ادمین":"د اډمین تایید ته انتظار");renderAccount();
+}
+function renderAccount(){
+  let u=db.users[db.users.length-1],box=document.getElementById("accountStatus");
+  if(box) box.innerHTML=u?`<div class="card"><b>${u.name}</b><p>${T[lang].status}: <span class="status ${u.status==="approved"?"ok":"wait"}">${u.status==="approved"?(lang==="en"?"Approved":lang==="fa"?"تایید شده":"تایید شوی"):(lang==="en"?"Pending":lang==="fa"?"در انتظار":"په انتظار")}</span></p></div>`:"";
+}
 function renderLoads(){let list=document.getElementById("loadList");list.innerHTML=db.posts.length?db.posts.slice(0,8).map(p=>`<div class="card"><div class="route"><span class="route-icon">${p.mode==="load"?"📦":(p.mode==="ride"?"🚕":"🚚")}</span><div class="grow"><b>${p.from} ← ${p.to}</b><div class="muted">${p.pickup} → ${p.dropoff}</div></div><span class="price">${p.fare?p.fare+" AFN":""}</span></div></div>`).join(""):`<div class="card muted">${lang==="en"?"No listings yet.":lang==="fa"?"هنوز اعلانی نیست.":"تر اوسه اعلان نشته."}</div>`}
-function unlock(){if(pin.value==="6341"){adminLock.classList.add("hidden");adminPanel.classList.remove("hidden");renderAdmin()}else toast(lang==="en"?"Wrong PIN":lang==="fa"?"PIN نادرست است":"PIN ناسم دی")}
+function unlock(){
+  const pinEl=document.getElementById("pin"),lock=document.getElementById("adminLock"),panel=document.getElementById("adminPanel");
+  if(pinEl?.value==="6341"){lock?.classList.add("hidden");panel?.classList.remove("hidden");renderAdmin()}
+  else toast(lang==="en"?"Wrong PIN":lang==="fa"?"PIN نادرست است":"PIN ناسم دی");
+}
 function setFee(v){db.feeMode=v;persist();renderAdmin()}
 function approve(id){let u=db.users.find(x=>x.id===id);if(u){u.status="approved";persist();renderAdmin()}}
 function reject(id){db.users=db.users.filter(x=>x.id!==id);persist();renderAdmin()}
 function activate30(id){let u=db.users.find(x=>x.id===id),d=new Date();d.setDate(d.getDate()+30);u.paidUntil=d.toISOString();u.status="approved";persist();renderAdmin()}
-function renderAdmin(){if(adminPanel.classList.contains("hidden"))return;feeState.textContent=db.feeMode?T[lang].monthly:T[lang].free;let p=db.users.filter(u=>u.status==="pending");pendingUsers.innerHTML=p.length?p.map(u=>`<div class="card"><b>${u.name}</b><div class="muted">${u.province} • ${u.district} • ${u.phone}</div><div class="installbar"><button class="btn gold" onclick="approve(${u.id})">${lang==="en"?"Approve":lang==="fa"?"تایید":"تایید کړه"}</button><button class="btn outline" onclick="reject(${u.id})">${lang==="en"?"Reject":lang==="fa"?"رد":"رد کړه"}</button></div></div>`).join(""):`<div class="card muted">—</div>`;allUsers.innerHTML=db.users.filter(u=>u.status==="approved").map(u=>{let e=u.paidUntil?new Date(u.paidUntil):null,a=!db.feeMode||(e&&e>new Date());return `<div class="card"><b>${u.name}</b><p class="status ${a?"ok":"off"}">${a?(lang==="en"?"Active":lang==="fa"?"فعال":"فعال"):(lang==="en"?"Blocked":lang==="fa"?"بسته":"بند")}</p>${db.feeMode?`<button class="btn gold" onclick="activate30(${u.id})">${lang==="en"?"Activate 30 days":lang==="fa"?"فعال برای ۳۰ روز":"۳۰ ورځې فعال کړه"}</button>`:""}</div>`}).join("")}
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
-async function installApp(){
-  if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;return}
-  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  toast(isIOS?(lang==="en"?"On iPhone: Share → Add to Home Screen":lang==="fa"?"در آیفون: Share → Add to Home Screen":"په iPhone کې: Share → Add to Home Screen"):(lang==="en"?"Use browser menu → Install app":lang==="fa"?"از منوی مرورگر Install app را بزنید":"د براوزر له مېنو Install app ووهئ"));
+function renderAdmin(){
+  const panel=document.getElementById("adminPanel");
+  if(!panel || panel.classList.contains("hidden"))return;
+  const feeStateEl=document.getElementById("feeState");
+  const pendingEl=document.getElementById("pendingUsers");
+  const allEl=document.getElementById("allUsers");
+  if(feeStateEl) feeStateEl.textContent=db.feeMode?T[lang].monthly:T[lang].free;
+  let p=db.users.filter(u=>u.status==="pending");
+  if(pendingEl) pendingEl.innerHTML=p.length?p.map(u=>`<div class="card"><b>${u.name}</b><div class="muted">${u.province} • ${u.district} • ${u.phone}</div><div class="installbar"><button type="button" class="btn gold" onclick="approve(${u.id})">${lang==="en"?"Approve":lang==="fa"?"تایید":"تایید کړه"}</button><button type="button" class="btn outline" onclick="reject(${u.id})">${lang==="en"?"Reject":lang==="fa"?"رد":"رد کړه"}</button></div></div>`).join(""):`<div class="card muted">—</div>`;
+  if(allEl) allEl.innerHTML=db.users.filter(u=>u.status==="approved").map(u=>{let e=u.paidUntil?new Date(u.paidUntil):null,a=!db.feeMode||(e&&e>new Date());return `<div class="card"><b>${u.name}</b><p class="status ${a?"ok":"off"}">${a?(lang==="en"?"Active":lang==="fa"?"فعال":"فعال"):(lang==="en"?"Blocked":lang==="fa"?"بسته":"بند")}</p>${db.feeMode?`<button type="button" class="btn gold" onclick="activate30(${u.id})">${lang==="en"?"Activate 30 days":lang==="fa"?"فعال برای ۳۰ روز":"۳۰ ورځې فعال کړه"}</button>`:""}</div>`}).join("");
 }
-fillSelects();fillVehicles();renderLoads();renderAccount();
+function initApp(){
+  fillSelects();fillVehicles();renderLoads();renderAccount();
+  const langEl=document.getElementById("lang");
+  if(langEl) langEl.value=lang;
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initApp);
+else initApp();
 
 function showService(type,btn){
   document.querySelectorAll(".service-big").forEach(x=>x.classList.remove("active"));
@@ -409,6 +467,7 @@ function saveRide(){
   persist(); renderLoads(); toast(lang==="en"?"Ride request posted":lang==="fa"?"درخواست سواری ثبت شد":"د سواري غوښتنه ثبت شوه");
 }
 
+window.addEventListener("error",function(e){console.error(e.error||e.message)});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
 </script>
 </body>
