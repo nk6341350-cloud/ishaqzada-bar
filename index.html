@@ -59,7 +59,15 @@ nav button{background:none;border:0;color:#9fb0bf;padding:8px 4px;font-size:11px
 .installbar{display:flex;gap:10px;margin-top:12px}.installbar button{flex:1}
 .toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%);z-index:99;background:#fff;color:#0a1a28;padding:10px 16px;border-radius:999px;display:none}
 @media(max-width:520px){.hero h1{font-size:24px}.hero p,.hero-actions{max-width:70%}.hero-vehicles{width:43%}.services{grid-template-columns:repeat(4,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
-.two-vehicle-photos{width:100%;height:132px;display:grid;grid-template-columns:1fr 1fr;gap:3px;overflow:hidden;border-radius:18px;background:#e9eef2}.two-vehicle-photos img{width:100%;height:100%;object-fit:cover;display:block}</style>
+.two-vehicle-photos{width:100%;height:132px;display:grid;grid-template-columns:1fr 1fr;gap:3px;overflow:hidden;border-radius:18px;background:#e9eef2}.two-vehicle-photos img{width:100%;height:100%;object-fit:cover;display:block}
+button,.btn,.service-big,nav button,select,input,textarea,label{
+  pointer-events:auto!important;
+  touch-action:manipulation;
+  position:relative;
+  z-index:5;
+}
+nav{z-index:9999!important}
+</style>
 
 <style id="real-final-fix">
 header{padding:10px 12px!important;position:sticky!important;top:0!important}
@@ -164,7 +172,7 @@ header{padding:9px 10px!important}
 }
 </style>
 
-</head>
+<meta name="app-version" content="buttons-fix-20260825-0304"></head>
 <body>
 <div class="app">
 <header>
@@ -451,11 +459,36 @@ function initApp(){
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initApp);
 else initApp();
 
+
+let deferredInstallPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;});
+async function installApp(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    try{await deferredInstallPrompt.userChoice}catch(e){}
+    deferredInstallPrompt=null;
+    return;
+  }
+  const isiPhone=/iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if(isiPhone){
+    alert(lang==="en"
+      ?"Open this site in Safari, tap Share, then Add to Home Screen."
+      :lang==="fa"
+      ?"سایت را در Safari باز کنید، Share را بزنید و Add to Home Screen را انتخاب کنید."
+      :"دا سایټ په Safari کې خلاص کړه، د Share تڼۍ ووهه، بیا Add to Home Screen وټاکه.");
+  }else{
+    alert(lang==="en"?"Use your browser menu and choose Install app / Add to Home screen."
+      :lang==="fa"?"از منوی مرورگر Install app / Add to Home screen را انتخاب کنید."
+      :"د براوزر له مېنو څخه Install app / Add to Home screen وټاکه.");
+  }
+}
+
 function showService(type,btn){
   document.querySelectorAll(".service-big").forEach(x=>x.classList.remove("active"));
   if(btn)btn.classList.add("active");
-  document.getElementById("barService").classList.toggle("hidden",type!=="bar");
-  document.getElementById("rideService").classList.toggle("hidden",type!=="ride");
+  const bar=document.getElementById("barService"), ride=document.getElementById("rideService");
+  if(bar) bar.classList.toggle("hidden",type!=="bar");
+  if(ride) ride.classList.toggle("hidden",type!=="ride");
 }
 function saveRide(){
   const from=document.getElementById("rideFrom").value.trim();
