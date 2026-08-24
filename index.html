@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="ps" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071421">
+<title>اسحاقزاده بار</title>
+
+<style>
+:root{
+--navy:#071421;
+--navy2:#0b1e31;
+--gold:#f4b72f;
+--gold2:#ffd66d;
+--white:#fff;
+--ink:#132033;
+--muted:#6d7888;
+--line:#e7ebef;
+--bg:#f3f6f8;
+--green:#19a861;
+--red:#e34a56
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:#dfe6ec;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
+color:var(--ink)
+}
+
+.app{
+max-width:760px;
+margin:auto;
+min-height:100vh;
+background:var(--bg);
+padding-bottom:84px
+}
+
+.top{
+background:linear-gradient(145deg,#06101a,#0c2238);
+color:#fff;
+padding:18px 16px 20px;
+position:sticky;
+top:0;
+z-index:20
+}
+
+.headrow{
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.logo{
+width:52px;
+height:52px;
+border-radius:50%;
+background:linear-gradient(145deg,#ffd877,#d79612);
+display:grid;
+place-items:center;
+color:#102030;
+font-weight:900;
+border:3px solid #fce19b
+}
+
+.brand b{font-size:21px}
+
+.brand small{
+display:block;
+color:#b8c5d0;
+margin-top:5px;
+direction:ltr;
+text-align:right
+}
+
+.spacer{flex:1}
+
+.free{
+background:#16334e;
+border:1px solid #36516c;
+color:#ffd66d;
+border-radius:999px;
+padding:7px 11px;
+font-size:12px
+}
+
+.hero{
+margin:14px 14px 0;
+background:linear-gradient(135deg,#0b1e31,#102d49,#0a1724);
+border-radius:24px;
+padding:20px;
+color:#fff;
+position:relative;
+overflow:hidden
+}
+
+.hero:after{
+content:"🚛";
+position:absolute;
+left:15px;
+bottom:-4px;
+font-size:80px
+}
+
+.hero h1{
+margin:0 0 8px;
+font-size:26px
+}
+
+.hero p{
+margin:0 0 16px;
+color:#cdd8e1;
+line-height:1.8;
+max-width:70%
+}
+
+.cta{
+display:flex;
+gap:10px;
+position:relative;
+z-index:2
+}
+
+.btn{
+border:0;
+border-radius:14px;
+padding:13px 15px;
+font-weight:800
+}
+
+.primary{
+background:linear-gradient(135deg,#ffd36a,#efa91e);
+color:#132033
+}
+
+.secondary{
+background:#fff;
+color:#123
+}
+
+.dark{
+background:#13283b;
+color:#fff
+}
+
+.section{padding:14px}
+
+.title{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin:3px 0 12px
+}
+
+.title h2{
+font-size:18px;
+margin:0
+}
+
+.title small{color:var(--muted)}
+
+.quick{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px
+}
+
+.q{
+background:#fff;
+border-radius:18px;
+padding:16px;
+border:1px solid #e7ebef
+}
+
+.q b{
+display:block;
+margin-top:7px
+}
+
+.q small{color:#788391}
+
+.iconbox{
+width:44px;
+height:44px;
+border-radius:14px;
+display:grid;
+place-items:center;
+font-size:24px;
+background:#edf5ff
+}
+
+.services{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:9px
+}
+
+.service{
+background:#fff;
+border:1px solid var(--line);
+border-radius:16px;
+padding:13px 6px;
+text-align:center
+}
+
+.service span{
+display:block;
+font-size:25px
+}
+
+.service b{font-size:11px}
+
+.vehiclegrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+
+.vehicle{
+background:#fff;
+border:1px solid var(--line);
+border-radius:18px;
+padding:15px 8px;
+text-align:center
+}
+
+.vehicle span{
+display:block;
+font-size:35px
+}
+
+.vehicle b{
+display:block;
+font-size:14px
+}
+
+.vehicle small{
+color:#85909c;
+font-size:11px
+}
+
+.card{
+background:#fff;
+border:1px solid var(--line);
+border-radius:18px;
+padding:15px;
+margin-bottom:11px
+}
+
+.formgrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+
+label{
+font-size:12px;
+color:#536171;
+font-weight:700
+}
+
+input,select,textarea{
+width:100%;
+border:1px solid #dce3e9;
+background:#fff;
+border-radius:13px;
+padding:12px;
+margin-top:6px
+}
+
+textarea{
+min-height:86px
+}
+
+.full{grid-column:1/-1}
+
+.switch{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+background:#e9eef2;
+padding:5px;
+border-radius:15px;
+margin-bottom:14px
+}
+
+.switch button{
+border:0;
+border-radius:11px;
+padding:11px;
+font-weight:800
+}
+
+.switch .on{
+background:#fff
+}
+
+.hidden{display:none!important}
+
+.status{font-weight:900}
+.ok{color:#149153}
+.wait{color:#d49100}
+.off{color:#d43848}
+
+nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#fff;
+border-top:1px solid #e5e9ed;
+z-index:40
+}
+
+.navin{
+max-width:760px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(4,1fr)
+}
+
+nav button{
+border:0;
+background:#fff;
+color:#788391;
+padding:8px 2px;
+font-size:11px
+}
+
+nav button span{
+display:block;
+font-size:22px
+}
+
+nav button.active{
+color:#d4900b;
+font-weight:800
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.toast{
+position:fixed;
+bottom:92px;
+left:50%;
+transform:translateX(-50%);
+background:#102235;
+color:white;
+padding:10px 16px;
+border-radius:999px;
+display:none;
+z-index:99
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="top">
+<div class="headrow">
+<div class="logo">IZ</div>
+
+<div class="brand">
+<b>اسحاقزاده بار</b>
+<small>ISHAQZADA BAR</small>
+</div>
+
+<div class="spacer"></div>
+<div class="free">اوس وړیا</div>
+</div>
+</div>
+
+<main id="home" class="page active">
+
+<div class="hero">
+
+<h1>بار دې واستوه، موټر پیدا کړه</h1>
+
+<p>
+له کوڅې تر کوڅې، کلي، ولسوالۍ او ټول افغانستان کې.
+</p>
+
+<div class="cta">
+
+<button class="btn primary"
+onclick="go('post');setMode('load')">
+📦 بار لرم
+</button>
+
+<button class="btn secondary"
+onclick="go('post');setMode('truck')">
+🚚 موټر خالي دی
+</button>
+
+</div>
+</div>
+
+<section class="section">
+
+<div class="quick">
+
+<div class="q">
+<div class="iconbox">📦</div>
+<b>بار ثبت کړئ</b>
+<small>موټرچلوونکي دې پیدا کړي</small>
+</div>
+
+<div class="q">
+<div class="iconbox">🚚</div>
+<b>خالي موټر ثبت کړئ</b>
+<small>نږدې بارونه پیدا کړئ</small>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+
+<div class="title">
+<h2>اصلي خدمتونه</h2>
+<small>ټول افغانستان</small>
+</div>
+
+<div class="services">
+
+<div class="service">
+<span>📍</span>
+<b>دقیق لوکیشن</b>
+</div>
+
+<div class="service">
+<span>🔎</span>
+<b>بار لټون</b>
+</div>
+
+<div class="service">
+<span>💬</span>
+<b>پیغامونه</b>
+</div>
+
+<div class="service">
+<span>🛡️</span>
+<b>تایید شوي کسان</b>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+
+<div class="title">
+<h2>د موټر ډول</h2>
+<small>له زرنج تر ټېلر</small>
+</div>
+
+<div class="vehiclegrid">
+
+<div class="vehicle">
+<span>🛺</span>
+<b>زرنج</b>
+<small>ښاري بار</small>
+</div>
+
+<div class="vehicle">
+<span>🛻</span>
+<b>پیکپ</b>
+<small>کوچنی بار</small>
+</div>
+
+<div class="vehicle">
+<span>🚐</span>
+<b>وان / مازدا</b>
+<small>منځنی بار</small>
+</div>
+
+<div class="vehicle">
+<span>🚚</span>
+<b>لارۍ</b>
+<small>دروند بار</small>
+</div>
+
+<div class="vehicle">
+<span>🚛</span>
+<b>لس ټایره</b>
+<small>لوی بار</small>
+</div>
+
+<div class="vehicle">
+<span>🚛</span>
+<b>ټېلر</b>
+<small>تر ټولو لوی</small>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+<div class="title">
+<h2>تازه اعلانونه</h2>
+<small>بارونه او موټرونه</small>
+</div>
+
+<div id="loadList"></div>
+</section>
+
+</main>
+
+
+<main id="post" class="page">
+
+<section class="section">
+
+<div class="title">
+<h2 id="postTitle">نوی بار ثبت کړئ</h2>
+</div>
+
+<div class="card">
+
+<div class="switch">
+
+<button id="loadMode"
+class="on"
+onclick="setMode('load')">
+📦 بار لرم
+</button>
+
+<button id="truckMode"
+onclick="setMode('truck')">
+🚚 موټر خالي دی
+</button>
+
+</div>
+
+<div class="formgrid">
+
+<label>
+له کوم ولایت څخه؟
+<select id="fromProvince"></select>
+</label>
+
+<label>
+ولسوالي/ښار
+<input id="fromDistrict">
+</label>
+
+<label class="full">
+د پورته کولو دقیق ځای
+<input id="pickup"
+placeholder="کوڅه، کلی، مارکېټ، سیمه...">
+</label>
+
+<label>
+تر کوم ولایت؟
+<select id="toProvince"></select>
+</label>
+
+<label>
+ولسوالي/ښار
+<input id="toDistrict">
+</label>
+
+<label class="full">
+د رسولو دقیق ځای
+<input id="dropoff"
+placeholder="کوڅه، کلی، مارکېټ، سیمه...">
+</label>
+
+<label>
+د موټر ډول
+<select id="vehicle">
+<option>زرنج</option>
+<option>ریکشا/درې چرخه</option>
+<option>پیکپ</option>
+<option>ډاټسن</option>
+<option>وان/مازدا</option>
+<option>لارۍ</option>
+<option>لس ټایره</option>
+<option>ټېلر</option>
+</select>
+</label>
+
+<label>
+وزن/ظرفیت
+<input id="weight" placeholder="مثلاً 2 ټنه">
+</label>
+
+<label>
+موبایل شمېره
+<input id="phone" inputmode="tel">
+</label>
+
+<label>
+کرایه
+<input id="fare" inputmode="numeric"
+placeholder="افغانۍ">
+</label>
+
+<label class="full">
+نور معلومات
+<textarea id="details"></textarea>
+</label>
+
+</div>
+
+<button class="btn primary"
+style="width:100%;margin-top:12px"
+onclick="savePost()">
+اعلان ثبت کړه
+</button>
+
+</div>
+
+</section>
+</main>
+
+
+<main id="account" class="page">
+
+<section class="section">
+
+<div class="title">
+<h2>نوی حساب</h2>
+<small>د اډمین تایید ضروري دی</small>
+</div>
+
+<div class="card">
+
+<div class="formgrid">
+
+<label>
+نوم
+<input id="regName">
+</label>
+
+<label>
+د پلار نوم
+<input id="regFather">
+</label>
+
+<label>
+ولایت
+<select id="regProvince"></select>
+</label>
+
+<label>
+ولسوالي
+<input id="regDistrict">
+</label>
+
+<label class="full">
+موبایل شمېره
+<input id="regPhone" inputmode="tel">
+</label>
+
+<label>
+د تذکرې عکس
+<input id="idPhoto"
+type="file"
+accept="image/*">
+</label>
+
+<label>
+تازه سلفي
+<input id="selfie"
+type="file"
+accept="image/*"
+capture="user">
+</label>
+
+</div>
+
+<button class="btn primary"
+style="width:100%;margin-top:12px"
+onclick="register()">
+د تایید لپاره واستوه
+</button>
+
+</div>
+
+<div id="accountStatus"></div>
+
+</section>
+</main>
+
+
+<main id="admin" class="page">
+
+<section class="section">
+
+<div class="title">
+<h2>🔐 پټ اډمین</h2>
+</div>
+
+<div id="adminLock" class="card">
+
+<label>
+اډمین PIN
+<input id="pin"
+type="password"
+inputmode="numeric">
+</label>
+
+<button class="btn primary"
+style="width:100%;margin-top:10px"
+onclick="unlock()">
+ننوتل
+</button>
+
+</div>
+
+<div id="adminPanel" class="hidden">
+
+<div class="card">
+
+<h3>د فیس سیستم</h3>
+
+<p>
+حالت:
+<span id="feeState" class="status ok">
+وړیا
+</span>
+</p>
+
+<div class="quick">
+
+<button class="btn primary"
+onclick="setFee(false)">
+وړیا
+</button>
+
+<button class="btn dark"
+onclick="setFee(true)">
+میاشتنی فیس
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+<b>د تایید په انتظار حسابونه</b>
+<div id="pendingUsers"></div>
+</div>
+
+<div class="card">
+<b>تایید شوي حسابونه</b>
+<div id="allUsers"></div>
+</div>
+
+</div>
+
+</section>
+</main>
+
+</div>
+
+
+<nav>
+
+<div class="navin">
+
+<button class="active"
+onclick="go('home',this)">
+<span>🏠</span>
+کور
+</button>
+
+<button onclick="go('post',this)">
+<span>➕</span>
+اعلان
+</button>
+
+<button onclick="go('account',this)">
+<span>👤</span>
+حساب
+</button>
+
+<button onclick="go('admin',this)">
+<span>🔒</span>
+اډمین
+</button>
+
+</div>
+
+</nav>
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+const provinces=[
+"کابل","کندهار","هرات","بلخ","ننګرهار",
+"هلمند","اروزګان","زابل","فراه","نیمروز",
+"بادغیس","غور","دایکندي","بامیان","غزني",
+"پکتیا","پکتیکا","خوست","لوګر","میدان وردګ",
+"پروان","کاپیسا","پنجشیر","لغمان","کنړ",
+"نورستان","کندز","تخار","بدخشان","بغلان",
+"سمنګان","سرپل","جوزجان","فاریاب"
+];
+
+["fromProvince","toProvince","regProvince"]
+.forEach(id=>{
+document.getElementById(id).innerHTML=
+'<option value="">ولایت وټاکئ</option>'+
+provinces.map(x=>`<option>${x}</option>`).join("");
+});
+
+let mode="load";
+
+let db=JSON.parse(
+localStorage.getItem("izbar_db") ||
+'{"users":[],"posts":[],"feeMode":false}'
+);
+
+function persist(){
+localStorage.setItem("izbar_db",JSON.stringify(db));
+}
+
+function toast(t){
+
+let x=document.getElementById("toast");
+
+x.textContent=t;
+x.style.display="block";
+
+setTimeout(()=>{
+x.style.display="none";
+},2200);
+
+}
+
+function go(id,el){
+
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+
+document.querySelectorAll("nav button")
+.forEach(x=>x.classList.remove("active"));
+
+if(el)el.classList.add("active");
+
+if(id==="home")renderLoads();
+
+if(id==="account")renderAccount();
+
+if(id==="admin")renderAdmin();
+
+window.scrollTo(0,0);
+
+}
+
+function setMode(m){
+
+mode=m;
+
+document.getElementById("postTitle")
+.textContent=
+m==="load" ?
+"نوی بار ثبت کړئ" :
+"خالي موټر ثبت کړئ";
+
+document.getElementById("loadMode")
+.classList.toggle("on",m==="load");
+
+document.getElementById("truckMode")
+.classList.toggle("on",m==="truck");
+
+}
+
+function savePost(){
+
+let p={
+
+id:Date.now(),
+
+mode:mode,
+
+from:document.getElementById("fromProvince").value,
+
+fd:document.getElementById("fromDistrict").value,
+
+pickup:document.getElementById("pickup").value,
+
+to:document.getElementById("toProvince").value,
+
+td:document.getElementById("toDistrict").value,
+
+dropoff:document.getElementById("dropoff").value,
+
+vehicle:document.getElementById("vehicle").value,
+
+weight:document.getElementById("weight").value,
+
+phone:document.getElementById("phone").value,
+
+fare:document.getElementById("fare").value,
+
+details:document.getElementById("details").value
+
+};
+
+if(
+!p.from ||
+!p.to ||
+!p.pickup ||
+!p.dropoff ||
+!p.phone
+){
+
+toast("ضروري معلومات بشپړ کړئ");
+
+return;
+
+}
+
+db.posts.unshift(p);
+
+persist();
+
+toast("اعلان ثبت شو");
+
+go("home");
+
+}
+
+function register(){
+
+let name=document.getElementById("regName").value;
+
+let father=document.getElementById("regFather").value;
+
+let province=document.getElementById("regProvince").value;
+
+let district=document.getElementById("regDistrict").value;
+
+let phone=document.getElementById("regPhone").value;
+
+let idPhoto=document.getElementById("idPhoto");
+
+let selfie=document.getElementById("selfie");
+
+if(
+!name ||
+!father ||
+!province ||
+!district ||
+!phone ||
+!idPhoto.files[0] ||
+!selfie.files[0]
+){
+
+toast("ټول معلومات، تذکره او سلفي ضروري دي");
+
+return;
+
+}
+
+db.users.push({
+
+id:Date.now(),
+
+name:name,
+
+father:father,
+
+province:province,
+
+district:district,
+
+phone:phone,
+
+status:"pending",
+
+paidUntil:null
+
+});
+
+persist();
+
+toast("ستاسو حساب د تایید په انتظار کې دی");
+
+renderAccount();
+
+}
+
+function renderAccount(){
+
+let u=db.users[db.users.length-1];
+
+if(!u){
+
+document.getElementById("accountStatus").innerHTML="";
+
+return;
+
+}
+
+document.getElementById("accountStatus").innerHTML=
+
+`<div class="card">
+
+<b>${u.name}</b>
+
+<p>
+حالت:
+<span class="status ${u.status==="approved"?"ok":"wait"}">
+
+${u.status==="approved" ?
+"تایید شوی" :
+"د اډمین تایید ته انتظار"}
+
+</span>
+</p>
+
+</div>`;
+
+}
+
+function renderLoads(){
+
+let box=document.getElementById("loadList");
+
+if(!db.posts.length){
+
+box.innerHTML=
+'<div class="card">تر اوسه اعلان نشته.</div>';
+
+return;
+
+}
+
+box.innerHTML=db.posts
+.slice(0,10)
+.map(p=>`
+
+<div class="card">
+
+<b>
+${p.mode==="load"?"📦":"🚚"}
+${p.from}
+←
+${p.to}
+</b>
+
+<p>
+${p.pickup}
+→
+${p.dropoff}
+</p>
+
+<small>
+${p.vehicle}
+•
+${p.weight || ""}
+</small>
+
+</div>
+
+`).join("");
+
+}
+
+function unlock(){
+
+let pin=document.getElementById("pin").value;
+
+if(pin==="6341"){
+
+document.getElementById("adminLock")
+.classList.add("hidden");
+
+document.getElementById("adminPanel")
+.classList.remove("hidden");
+
+renderAdmin();
+
+}else{
+
+toast("PIN ناسم دی");
+
+}
+
+}
+
+function setFee(v){
+
+db.feeMode=v;
+
+persist();
+
+renderAdmin();
+
+toast(
+v ?
+"میاشتنی فیس فعال شو" :
+"وړیا حالت فعال شو"
+);
+
+}
+
+function approve(id){
+
+let u=db.users.find(x=>x.id===id);
+
+if(u){
+
+u.status="approved";
+
+persist();
+
+renderAdmin();
+
+}
+
+}
+
+function reject(id){
+
+db.users=db.users.filter(x=>x.id!==id);
+
+persist();
+
+renderAdmin();
+
+}
+
+function activate30(id){
+
+let u=db.users.find(x=>x.id===id);
+
+if(!u)return;
+
+let d=new Date();
+
+d.setDate(d.getDate()+30);
+
+u.paidUntil=d.toISOString();
+
+u.status="approved";
+
+persist();
+
+renderAdmin();
+
+toast("حساب ۳۰ ورځې فعال شو");
+
+}
+
+function renderAdmin(){
+
+let panel=document.getElementById("adminPanel");
+
+if(panel.classList.contains("hidden"))return;
+
+let fee=document.getElementById("feeState");
+
+fee.textContent=
+db.feeMode ?
+"میاشتنی فیس" :
+"وړیا";
+
+fee.className=
+"status "+
+(db.feeMode?"wait":"ok");
+
+let pending=db.users
+.filter(u=>u.status==="pending");
+
+document.getElementById("pendingUsers").innerHTML=
+
+pending.length ?
+
+pending.map(u=>`
+
+<div class="card">
+
+<b>
+${u.name}
+د ${u.father} زوی
+</b>
+
+<p>
+${u.province}
+•
+${u.district}
+</p>
+
+<p>
+📞 ${u.phone}
+</p>
+
+<div class="quick">
+
+<button class="btn primary"
+onclick="approve(${u.id})">
+تایید کړه
+</button>
+
+<button class="btn dark"
+onclick="reject(${u.id})">
+رد کړه
+</button>
+
+</div>
+
+</div>
+
+`).join("")
+
+:
+
+"<p>د تایید لپاره څوک نشته.</p>";
+
+
+let approved=db.users
+.filter(u=>u.status==="approved");
+
+document.getElementById("allUsers").innerHTML=
+
+approved.length ?
+
+approved.map(u=>{
+
+let expiry=
+u.paidUntil ?
+new Date(u.paidUntil) :
+null;
+
+let active=
+!db.feeMode ||
+(expiry && expiry>new Date());
+
+return `
+
+<div class="card">
+
+<b>${u.name}</b>
+
+<p>
+📞 ${u.phone}
+</p>
+
+<p>
+حالت:
+<span class="status ${active?"ok":"off"}">
+${active?"فعال":"بند"}
+</span>
+</p>
+
+${db.feeMode ? `
+
+<p>
+د فیس ختمېدو نېټه:
+${expiry ?
+expiry.toLocaleDateString() :
+"فیس نه دی ورکړل شوی"}
+</p>
+
+<button
+class="btn primary"
+style="width:100%"
+onclick="activate30(${u.id})">
+
+اوس یې ۳۰ ورځې فعال کړه
+
+</button>
+
+` : ""}
+
+</div>
+
+`;
+
+}).join("")
+
+:
+
+"<p>فعال حساب نشته.</p>";
+
+}
+
+renderLoads();
+
+renderAccount();
+
+</script>
+
+</body>
+</html>
