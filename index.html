@@ -81,6 +81,13 @@ button{ cursor:pointer!important; touch-action:manipulation!important; pointer-e
 .install-step{background:#081b2c;border:1px solid #294760;border-radius:13px;padding:11px;margin:8px 0}
 .install-ok{width:100%;margin-top:10px}
 
+
+button,.service-big,nav button,select,input,textarea{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:rgba(255,255,255,.08);
+}
+
 </style>
 
 <style id="real-final-fix">
@@ -207,6 +214,7 @@ header{padding:9px 10px!important}
 </script>
 
 <meta name="app-version" content="buttons-final-20260825-1244">
+<meta name="app-version" content="ALL-BUTTONS-20260825-1258">
 </head>
 <body>
 <div class="app">
@@ -554,45 +562,7 @@ window.addEventListener("error",function(e){console.error(e.error||e.message)});
 
 </script>
 
-<script id="button-bind-final">
-(function(){
-  function on(el, fn){
-    if(!el) return;
-    el.addEventListener("click", function(e){
-      e.preventDefault();
-      fn.call(el, e);
-    }, {passive:false});
-  }
 
-  on(document.getElementById("installTop"), installApp);
-  on(document.getElementById("chooseBar"), function(){ showService("bar", this); });
-  on(document.getElementById("chooseRide"), function(){ showService("ride", this); });
-  on(document.getElementById("loadMode"), function(){ setMode("load"); });
-  on(document.getElementById("truckMode"), function(){ setMode("truck"); });
-
-  document.querySelectorAll('button[data-t="haveLoad"]').forEach(function(el){
-    if(el.id!=="loadMode") on(el,function(){ go("post"); setMode("load"); });
-  });
-  document.querySelectorAll('button[data-t="emptyTruck"]').forEach(function(el){
-    if(el.id!=="truckMode") on(el,function(){ go("post"); setMode("truck"); });
-  });
-  document.querySelectorAll('button[data-t="requestRide"]').forEach(function(el){ on(el,saveRide); });
-  document.querySelectorAll('button[data-t="installFull"]').forEach(function(el){ on(el,installApp); });
-  document.querySelectorAll('button[data-t="saveAd"]').forEach(function(el){ on(el,savePost); });
-  document.querySelectorAll('button[data-t="sendApproval"]').forEach(function(el){ on(el,register); });
-  document.querySelectorAll('button[data-t="login"]').forEach(function(el){ on(el,unlock); });
-
-  var navButtons=document.querySelectorAll("nav button");
-  var pages=["home","post","account","admin"];
-  navButtons.forEach(function(el,i){ on(el,function(){ go(pages[i],el); }); });
-
-  var langEl=document.getElementById("lang");
-  if(langEl) langEl.addEventListener("change",function(){ setLang(this.value); });
-
-  document.querySelectorAll('button[data-t="free"]').forEach(function(el){ on(el,function(){setFee(false)}); });
-  document.querySelectorAll('button[data-t="monthly"]').forEach(function(el){ on(el,function(){setFee(true)}); });
-})();
-</script>
 
 
 <script>
@@ -601,6 +571,47 @@ window.addEventListener("error",function(e){console.error(e.error||e.message)});
   document.getElementById("closeInstallHelp")?.addEventListener("click",closeInstall);
   document.getElementById("closeInstallHelp2")?.addEventListener("click",closeInstall);
   document.getElementById("installHelp")?.addEventListener("click",function(e){if(e.target===this)closeInstall();});
+})();
+</script>
+
+
+<script id="all-buttons-fixed">
+(function(){
+  function click(e){
+    var b=e.target.closest("button");
+    if(!b)return;
+
+    if(b.id==="installTop" || b.dataset.t==="installFull"){e.preventDefault();return installApp();}
+    if(b.id==="chooseBar"){e.preventDefault();return showService("bar",b);}
+    if(b.id==="chooseRide"){e.preventDefault();return showService("ride",b);}
+    if(b.id==="loadMode"){e.preventDefault();return setMode("load");}
+    if(b.id==="truckMode"){e.preventDefault();return setMode("truck");}
+
+    if(b.dataset.t==="haveLoad"){e.preventDefault();go("post");return setMode("load");}
+    if(b.dataset.t==="emptyTruck"){e.preventDefault();go("post");return setMode("truck");}
+    if(b.dataset.t==="requestRide"){e.preventDefault();return saveRide();}
+    if(b.dataset.t==="saveAd"){e.preventDefault();return savePost();}
+    if(b.dataset.t==="sendApproval"){e.preventDefault();return register();}
+    if(b.dataset.t==="login"){e.preventDefault();return unlock();}
+    if(b.dataset.t==="free"){e.preventDefault();return setFee(false);}
+    if(b.dataset.t==="monthly"){e.preventDefault();return setFee(true);}
+
+    if(b.closest("nav")){
+      e.preventDefault();
+      var all=Array.from(document.querySelectorAll("nav button"));
+      var i=all.indexOf(b);
+      return go(["home","post","account","admin"][i]||"home",b);
+    }
+  }
+  document.addEventListener("click",click,false);
+
+  var lang=document.getElementById("lang");
+  if(lang)lang.addEventListener("change",function(){setLang(this.value)},false);
+
+  // Make service cards explicitly identifiable if missing.
+  var cards=document.querySelectorAll(".service-big");
+  if(cards[0]&&!cards[0].id)cards[0].id="chooseBar";
+  if(cards[1]&&!cards[1].id)cards[1].id="chooseRide";
 })();
 </script>
 
