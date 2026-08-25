@@ -242,6 +242,7 @@ document.addEventListener("click",function(e){ if(e.target && e.target.id==="dri
 <meta name="app-version" content="ALL-BUTTONS-20260825-1258">
 <meta name="app-version" content="TEN-BUTTONS-FIX-20260825">
 <meta name="app-version" content="RIDE-GPS-FLOW-20260825">
+<meta name="app-version" content="DRIVER-ADMIN-DETAILS-20260825">
 </head>
 <body>
 <div class="app">
@@ -609,6 +610,19 @@ function unlock(){
 function setFee(v){db.feeMode=v;persist();renderAdmin()}
 function approve(id){let u=db.users.find(x=>x.id===id);if(u){u.status="approved";persist();renderAdmin()}}
 function reject(id){db.users=db.users.filter(x=>x.id!==id);persist();renderAdmin()}
+function blockDriver(id){
+  let u=db.users.find(x=>x.id===id);
+  if(u){u.status="blocked";persist();renderAdmin();toast("موټروان بند شو")}
+}
+function unblockDriver(id){
+  let u=db.users.find(x=>x.id===id);
+  if(u){u.status="approved";persist();renderAdmin();toast("موټروان فعال شو")}
+}
+function deleteDriver(id){
+  if(!confirm("دا موټروان په بشپړ ډول حذف شي؟")) return;
+  db.users=db.users.filter(x=>x.id!==id);
+  persist();renderAdmin();toast("موټروان حذف شو");
+}
 function activate30(id){let u=db.users.find(x=>x.id===id),d=new Date();d.setDate(d.getDate()+30);u.paidUntil=d.toISOString();u.status="approved";persist();renderAdmin()}
 function renderAdmin(){
   const panel=document.getElementById("adminPanel");
@@ -619,7 +633,27 @@ function renderAdmin(){
   if(feeStateEl) feeStateEl.textContent=db.feeMode?T[lang].monthly:T[lang].free;
   let p=db.users.filter(u=>u.status==="pending");
   if(pendingEl) pendingEl.innerHTML=p.length?p.map(u=>`<div class="card">${u.vehiclePhoto?`<img src="${u.vehiclePhoto}" class="vehicle-photo" style="height:150px!important">`:""}<b>${u.name}</b><div class="muted">${u.province} • ${u.district} • ${u.phone}</div><div class="muted">${u.driverService==="ride"?"🚕 سواري موټر":"📦 بار موټر"} • ${u.vehicleType||""}</div><div class="installbar"><button type="button" class="btn gold" onclick="approve(${u.id})">${lang==="en"?"Approve":lang==="fa"?"تایید":"تایید کړه"}</button><button type="button" class="btn outline" onclick="reject(${u.id})">${lang==="en"?"Reject":lang==="fa"?"رد":"رد کړه"}</button></div></div>`).join(""):`<div class="card muted">—</div>`;
-  if(allEl) allEl.innerHTML=db.users.filter(u=>u.status==="approved").map(u=>{let e=u.paidUntil?new Date(u.paidUntil):null,a=!db.feeMode||(e&&e>new Date());return `<div class="card"><b>${u.name}</b><p class="status ${a?"ok":"off"}">${a?(lang==="en"?"Active":lang==="fa"?"فعال":"فعال"):(lang==="en"?"Blocked":lang==="fa"?"بسته":"بند")}</p>${db.feeMode?`<button type="button" class="btn gold" onclick="activate30(${u.id})">${lang==="en"?"Activate 30 days":lang==="fa"?"فعال برای ۳۰ روز":"۳۰ ورځې فعال کړه"}</button>`:""}</div>`}).join("");
+  if(allEl) allEl.innerHTML=db.users.filter(u=>u.status==="approved"||u.status==="blocked").map(u=>{
+    let e=u.paidUntil?new Date(u.paidUntil):null;
+    let feeActive=!db.feeMode||(e&&e>new Date());
+    let isBlocked=u.status==="blocked";
+    let maps=(u.lat&&u.lon)?`https://www.google.com/maps?q=${u.lat},${u.lon}`:"";
+    return `<div class="card">
+      ${u.vehiclePhoto?`<img src="${u.vehiclePhoto}" class="vehicle-photo" style="height:150px!important">`:""}
+      <b>${u.name||""}</b>
+      <div class="muted">${u.province||""} • ${u.district||""} • ${u.phone||""}</div>
+      <div class="muted">${u.driverService==="ride"?"🚕 سواري موټر":"📦 بار موټر"} • ${u.vehicleType||""}</div>
+      <p class="status ${isBlocked?"off":(feeActive?"ok":"off")}">${isBlocked?"بند":(feeActive?"فعال":"فیس ختم")}</p>
+      ${maps?`<a class="btn outline" style="display:block;text-align:center;text-decoration:none;margin-top:8px" href="${maps}" target="_blank" rel="noopener">📍 لوکیشن وګوره</a>`:""}
+      <div class="installbar">
+        ${isBlocked
+          ?`<button type="button" class="btn gold" onclick="unblockDriver(${u.id})">فعال کړه</button>`
+          :`<button type="button" class="btn outline" onclick="blockDriver(${u.id})">بند کړه</button>`}
+        <button type="button" class="btn outline" onclick="deleteDriver(${u.id})">🗑️ حذف</button>
+      </div>
+      ${db.feeMode&&!isBlocked?`<button type="button" class="btn gold" style="width:100%;margin-top:8px" onclick="activate30(${u.id})">${lang==="en"?"Activate 30 days":lang==="fa"?"فعال برای ۳۰ روز":"۳۰ ورځې فعال کړه"}</button>`:""}
+    </div>`;
+  }).join("");
 }
 function initApp(){
   fillSelects();fillVehicles();renderLoads();renderAccount();
@@ -858,11 +892,19 @@ window.addEventListener("error",function(e){console.error(e.error||e.message)});
   });
 
   q("btnVerified")?.addEventListener("click",function(){
-    var users=(db.users||[]).filter(function(u){return u.status==="approved"});
+    var users=(db.users||[]).filter(function(u){return u.status==="approved" && u.role==="driver"});
     var html=users.length?users.map(function(u){
-      return "<div class='quick-item'><b>"+u.name+"</b><br><span class='muted'>"+(u.province||"")+" • "+(u.district||"")+" • "+(u.phone||"")+"</span></div>"
-    }).join(""):"<div class='quick-item'>تر اوسه تایید شوی کس نشته.</div>";
-    openModal("🛡️ تایید شوي کسان",html);
+      var maps=(u.lat&&u.lon)?("https://www.google.com/maps?q="+u.lat+","+u.lon):"";
+      return "<div class='quick-item'>"+
+        (u.vehiclePhoto?"<img src='"+u.vehiclePhoto+"' style='width:100%;height:145px;object-fit:cover;border-radius:12px;margin-bottom:8px'>":"")+
+        "<b>"+(u.name||"")+"</b>"+
+        "<div class='muted'>"+(u.driverService==="ride"?"🚕 سواري موټر":"📦 بار موټر")+" • "+(u.vehicleType||"")+"</div>"+
+        "<div class='muted'>"+(u.province||"")+" • "+(u.district||"")+"</div>"+
+        "<div class='muted'>📱 "+(u.phone||"")+"</div>"+
+        (maps?"<a class='btn outline' style='display:block;text-align:center;text-decoration:none;margin-top:8px' href='"+maps+"' target='_blank' rel='noopener'>📍 لوکیشن وګوره</a>":"")+
+      "</div>";
+    }).join(""):"<div class='quick-item'>تر اوسه تایید شوی موټروان نشته.</div>";
+    openModal("🛡️ تایید شوي موټروانان",html);
   });
 
   document.querySelectorAll(".vehicle-button").forEach(function(card){
