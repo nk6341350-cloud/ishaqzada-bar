@@ -235,6 +235,7 @@ header{padding:9px 10px!important}
 })();
 
 
+document.addEventListener("click",function(e){ if(e.target && e.target.id==="driverLocationBtn") captureDriverLocation(); });
 </script>
 
 <meta name="app-version" content="buttons-final-20260825-1244">
@@ -280,7 +281,7 @@ header{padding:9px 10px!important}
   </div>
   <div class="hero-actions hero-actions-fixed">
     <button type="button" class="btn gold" data-t="haveLoad">📦 بار لرم</button>
-    <button type="button" class="btn outline" data-t="emptyTruck">🚚 موټر خالي دی</button>
+    <button type="button" class="btn outline" id="findCargoDriverHome">🚚 موټر پیدا کړه</button>
   </div>
 </section>
 
@@ -412,16 +413,21 @@ header{padding:9px 10px!important}
 
 <main id="account" class="page">
 <section class="section">
-  <div class="section-title"><h2 data-t="newAccount">نوی حساب</h2><small data-t="approvalReq">د اډمین تایید ضروري دی</small></div>
+  <div class="section-title"><h2>🚘 د موټروالا نوی حساب</h2><small>یوازې موټروالان ځان ثبتوي</small></div>
+  <div class="notice" style="margin-bottom:10px">بار والا او سواري والا حساب ته اړتیا نه لري. دا ثبت یوازې د موټروان لپاره دی او د اډمین تایید ضروري دی.</div>
   <div class="card">
     <div class="formgrid">
-      <label><span data-t="name">نوم</span><input id="regName"></label>
-      <label><span data-t="father">د پلار نوم</span><input id="regFather"></label>
-      <label><span data-t="province">ولایت</span><select id="regProvince"></select></label>
-      <label><span data-t="district">ولسوالي</span><input id="regDistrict"></label>
-      <label class="full"><span data-t="phone">موبایل شمېره</span><input id="regPhone" inputmode="tel"></label>
-      <label><span data-t="idPhoto">د تذکرې عکس</span><input id="idPhoto" type="file" accept="image/*"></label>
-      <label><span data-t="selfie">تازه سلفي</span><input id="selfie" type="file" accept="image/*" capture="user"></label>
+      <label><span>نوم</span><input id="regName"></label>
+      <label><span>ولایت</span><select id="regProvince"></select></label>
+      <label><span>ولسوالي / ښار</span><input id="regDistrict"></label>
+      <label><span>موبایل شمېره</span><input id="regPhone" inputmode="tel"></label>
+      <label><span>د موټر خدمت</span><select id="regDriverService"><option value="cargo">📦 بار موټر</option><option value="ride">🚕 سواري موټر</option></select></label>
+      <label><span>د موټر ډول</span><select id="regVehicleType"><option>زرنج او سوزوکي</option><option>مازدا باډي والا</option><option>پیکپ</option><option>لارۍ</option><option>لس ټایره</option><option>ټېلر</option><option>ښاري ټکسي</option><option>رکشه</option><option>کرایي موټر</option></select></label>
+      <label><span>د تذکرې عکس</span><input id="idPhoto" type="file" accept="image/*"></label>
+      <label><span>تازه سلفي</span><input id="selfie" type="file" accept="image/*" capture="user"></label>
+      <label class="full"><span>د موټر عکس</span><input id="vehiclePhoto" type="file" accept="image/*" capture="environment"></label>
+      <label class="full"><span>📍 د موټروان اوسنی دقیق لوکیشن</span><input id="driverLocation" readonly placeholder="لومړی خپل اوسنی لوکیشن ثبت کړه"></label>
+      <button type="button" class="btn outline full" id="driverLocationBtn">📍 زما اوسنی لوکیشن ثبت کړه</button>
     </div>
     <button type="button" class="btn gold" style="width:100%;margin-top:12px" data-t="sendApproval">د تایید لپاره واستوه</button>
   </div>
@@ -534,15 +540,29 @@ function savePost(){
   if(!p.from||!p.to||!p.pickup||!p.dropoff||!p.phone)return toast(lang==="en"?"Complete required fields":lang==="fa"?"معلومات ضروری را تکمیل کنید":"ضروري معلومات بشپړ کړئ");
   db.posts.unshift(p);persist();toast(lang==="en"?"Listing posted":lang==="fa"?"اعلان ثبت شد":"اعلان ثبت شو");go("home");
 }
-function register(){
+function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+function captureDriverLocation(){
+  const out=document.getElementById("driverLocation");
+  if(!navigator.geolocation){toast("GPS په دې براوزر کې نشته");return;}
+  toast("لوکیشن اخلو...");
+  navigator.geolocation.getCurrentPosition(function(pos){
+    const lat=pos.coords.latitude, lon=pos.coords.longitude;
+    out.dataset.lat=lat; out.dataset.lon=lon; out.value=lat.toFixed(6)+", "+lon.toFixed(6);
+    toast("د موټروان لوکیشن ثبت شو");
+  },function(){toast("د لوکیشن اجازه فعاله کړه")},{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+}
+async function register(){
   const g=id=>document.getElementById(id);
-  const name=g("regName"),father=g("regFather"),province=g("regProvince"),district=g("regDistrict"),phoneEl=g("regPhone"),idp=g("idPhoto"),self=g("selfie");
-  if(!name?.value||!father?.value||!province?.value||!district?.value||!phoneEl?.value||!idp?.files?.[0]||!self?.files?.[0])return toast(lang==="en"?"All fields, ID and selfie are required":lang==="fa"?"تمام معلومات، تذکره و سلفی ضروری است":"ټول معلومات، تذکره او سلفي ضروري دي");
-  db.users.push({id:Date.now(),name:name.value,father:father.value,province:province.value,district:district.value,phone:phoneEl.value,status:"pending",paidUntil:null});
-  persist();toast(lang==="en"?"Waiting for admin approval":lang==="fa"?"در انتظار تایید ادمین":"د اډمین تایید ته انتظار");renderAccount();
+  const name=g("regName"),province=g("regProvince"),district=g("regDistrict"),phoneEl=g("regPhone"),idp=g("idPhoto"),self=g("selfie"),vehiclePhoto=g("vehiclePhoto"),service=g("regDriverService"),vehicleType=g("regVehicleType"),driverLocation=g("driverLocation");
+  if(!name?.value||!province?.value||!district?.value||!phoneEl?.value||!idp?.files?.[0]||!self?.files?.[0]||!vehiclePhoto?.files?.[0]||!driverLocation?.dataset?.lat)return toast("نوم، ولایت، ولسوالي، شمېره، تذکره، سلفي، د موټر عکس او دقیق لوکیشن ټول ضروري دي");
+  try{
+    const carPhoto=await fileToDataURL(vehiclePhoto.files[0]);
+    db.users.push({id:Date.now(),role:"driver",name:name.value,province:province.value,district:district.value,phone:phoneEl.value,driverService:service?.value||"cargo",vehicleType:vehicleType?.value||"",vehiclePhoto:carPhoto,lat:Number(driverLocation.dataset.lat),lon:Number(driverLocation.dataset.lon),locationText:driverLocation.value,status:"pending",paidUntil:null});
+    persist();toast("د موټروالا حساب د اډمین تایید ته واستول شو");renderAccount();
+  }catch(e){toast("د عکس په ثبت کې ستونزه راغله")}
 }
 function renderAccount(){
-  let u=db.users[db.users.length-1],box=document.getElementById("accountStatus");
+  let u=[...(db.users||[])].reverse().find(x=>x.role==="driver"),box=document.getElementById("accountStatus");
   if(box) box.innerHTML=u?`<div class="card"><b>${u.name}</b><p>${T[lang].status}: <span class="status ${u.status==="approved"?"ok":"wait"}">${u.status==="approved"?(lang==="en"?"Approved":lang==="fa"?"تایید شده":"تایید شوی"):(lang==="en"?"Pending":lang==="fa"?"در انتظار":"په انتظار")}</span></p></div>`:"";
 }
 function renderLoads(){let list=document.getElementById("loadList");list.innerHTML=db.posts.length?db.posts.slice(0,8).map(p=>`<div class="card"><div class="route"><span class="route-icon">${p.mode==="load"?"📦":(p.mode==="ride"?"🚕":"🚚")}</span><div class="grow"><b>${p.from} ← ${p.to}</b><div class="muted">${p.pickup} → ${p.dropoff}</div></div><span class="price">${p.fare?p.fare+" AFN":""}</span></div></div>`).join(""):`<div class="card muted">${lang==="en"?"No listings yet.":lang==="fa"?"هنوز اعلانی نیست.":"تر اوسه اعلان نشته."}</div>`}
@@ -563,7 +583,7 @@ function renderAdmin(){
   const allEl=document.getElementById("allUsers");
   if(feeStateEl) feeStateEl.textContent=db.feeMode?T[lang].monthly:T[lang].free;
   let p=db.users.filter(u=>u.status==="pending");
-  if(pendingEl) pendingEl.innerHTML=p.length?p.map(u=>`<div class="card"><b>${u.name}</b><div class="muted">${u.province} • ${u.district} • ${u.phone}</div><div class="installbar"><button type="button" class="btn gold" onclick="approve(${u.id})">${lang==="en"?"Approve":lang==="fa"?"تایید":"تایید کړه"}</button><button type="button" class="btn outline" onclick="reject(${u.id})">${lang==="en"?"Reject":lang==="fa"?"رد":"رد کړه"}</button></div></div>`).join(""):`<div class="card muted">—</div>`;
+  if(pendingEl) pendingEl.innerHTML=p.length?p.map(u=>`<div class="card">${u.vehiclePhoto?`<img src="${u.vehiclePhoto}" class="vehicle-photo" style="height:150px!important">`:""}<b>${u.name}</b><div class="muted">${u.province} • ${u.district} • ${u.phone}</div><div class="muted">${u.driverService==="ride"?"🚕 سواري موټر":"📦 بار موټر"} • ${u.vehicleType||""}</div><div class="installbar"><button type="button" class="btn gold" onclick="approve(${u.id})">${lang==="en"?"Approve":lang==="fa"?"تایید":"تایید کړه"}</button><button type="button" class="btn outline" onclick="reject(${u.id})">${lang==="en"?"Reject":lang==="fa"?"رد":"رد کړه"}</button></div></div>`).join(""):`<div class="card muted">—</div>`;
   if(allEl) allEl.innerHTML=db.users.filter(u=>u.status==="approved").map(u=>{let e=u.paidUntil?new Date(u.paidUntil):null,a=!db.feeMode||(e&&e>new Date());return `<div class="card"><b>${u.name}</b><p class="status ${a?"ok":"off"}">${a?(lang==="en"?"Active":lang==="fa"?"فعال":"فعال"):(lang==="en"?"Blocked":lang==="fa"?"بسته":"بند")}</p>${db.feeMode?`<button type="button" class="btn gold" onclick="activate30(${u.id})">${lang==="en"?"Activate 30 days":lang==="fa"?"فعال برای ۳۰ روز":"۳۰ ورځې فعال کړه"}</button>`:""}</div>`}).join("");
 }
 function initApp(){
@@ -682,6 +702,27 @@ function saveRide(){
   renderRideRequests();
   renderLoads();
   toast("غوښتنه ثبت شوه — نږدې موټروالا ته به ښکاره شي");
+}
+
+
+function driverCard(u){return `<div class="quick-item">${u.vehiclePhoto?`<img src="${u.vehiclePhoto}" style="width:100%;height:150px;object-fit:cover;border-radius:12px;margin-bottom:8px">`:""}<b>${u.name}</b><br><span class="muted">${u.province} • ${u.district}<br>${u.vehicleType||""} • ${u.phone||""}</span><div class="installbar"><a class="btn gold" style="text-decoration:none;text-align:center" href="tel:${u.phone||""}">📞 زنګ</a><button type="button" class="btn outline" onclick="openDriverMessage('${u.phone||""}')">💬 پیغام</button></div></div>`}
+function findDrivers(service,province,district,vehicleType){
+  let users=(db.users||[]).filter(u=>u.status==="approved"&&u.role==="driver"&&(u.driverService||"cargo")===service);
+  if(province)users=users.filter(u=>u.province===province);
+  if(district){const d=district.trim().toLowerCase();users=users.filter(u=>(u.district||"").trim().toLowerCase().includes(d));}
+  if(vehicleType)users=users.filter(u=>(u.vehicleType||"")===vehicleType);
+  return users;
+}
+function openDriverMessage(phone){
+  const body=document.getElementById("quickBody"); if(!body)return;
+  body.innerHTML=`<div class="quick-item"><b>💬 موټروالا ته پیغام</b><textarea id="driverMsgText" placeholder="پیغام ولیکه..."></textarea><a class="btn gold" style="display:block;text-decoration:none;text-align:center;margin-top:8px" href="sms:${phone}">پیغام واستوه</a></div>`;
+}
+function openCargoDriverFinder(){
+  const opts=provincesPs.map(x=>`<option>${x}</option>`).join("");
+  document.getElementById("quickTitle").textContent="🚚 موټر پیدا کړه";
+  document.getElementById("quickBody").innerHTML=`<div class="quick-item"><label>ولایت<select id="finderProvince"><option value="">ولایت وټاکئ</option>${opts}</select></label><label>ولسوالي / ښار<input id="finderDistrict" placeholder="ولسوالي یا ښار"></label><label>د موټر ډول<select id="finderVehicle"><option value="">ټول بار موټرونه</option><option>زرنج او سوزوکي</option><option>مازدا باډي والا</option><option>پیکپ</option><option>لارۍ</option><option>لس ټایره</option><option>ټېلر</option></select></label><button type="button" class="btn gold" style="width:100%;margin-top:10px" id="doFindCargo">موټرونه وښیه</button></div><div id="driverResults"></div>`;
+  document.getElementById("quickModal").classList.remove("hidden");
+  document.getElementById("doFindCargo").onclick=function(){const p=document.getElementById("finderProvince").value,d=document.getElementById("finderDistrict").value,v=document.getElementById("finderVehicle").value,arr=findDrivers("cargo",p,d,v);document.getElementById("driverResults").innerHTML=arr.length?arr.map(driverCard).join(""):'<div class="quick-item">په دې سیمه کې تر اوسه تایید شوی موټر نشته.</div>';};
 }
 
 window.addEventListener("error",function(e){console.error(e.error||e.message)});
@@ -814,6 +855,7 @@ window.addEventListener("error",function(e){console.error(e.error||e.message)});
   });
   document.getElementById("rideLocationBtn")?.addEventListener("click",captureRideLocation);
   document.getElementById("findDriverBtn")?.addEventListener("click",saveRide);
+  document.getElementById("findCargoDriverHome")?.addEventListener("click",openCargoDriverFinder);
   document.getElementById("rideMessageBtn")?.addEventListener("click",function(){
     document.getElementById("rideRequestsList")?.scrollIntoView({behavior:"smooth",block:"start"});
   });
