@@ -235,7 +235,7 @@ header{padding:9px 10px!important}
 })();
 
 
-document.addEventListener("click",function(e){ if(e.target && e.target.id==="driverLocationBtn") captureDriverLocation(); });
+document.addEventListener("click",function(e){ if(e.target && e.target.id==="driverLocationBtn") captureDriverLocation(); if(e.target && e.target.id==="driverLoginBtn") driverLogin(); });
 </script>
 
 <meta name="app-version" content="buttons-final-20260825-1244">
@@ -422,6 +422,7 @@ document.addEventListener("click",function(e){ if(e.target && e.target.id==="dri
       <label><span>ولایت</span><select id="regProvince"></select></label>
       <label><span>ولسوالي / ښار</span><input id="regDistrict"></label>
       <label><span>موبایل شمېره</span><input id="regPhone" inputmode="tel"></label>
+      <label><span>پاسورډ جوړ کړه</span><input id="regPassword" type="password" autocomplete="new-password" placeholder="لږ تر لږه 4 توري/شمېرې"></label>
       <label><span>د موټر خدمت</span><select id="regDriverService"><option value="cargo">📦 بار موټر</option><option value="ride">🚕 سواري موټر</option></select></label>
       <label><span>د موټر ډول</span><select id="regVehicleType"><option>زرنج</option><option>سوزوکي</option><option>مازدا باډي والا</option><option>پیکپ</option><option>لارۍ</option><option>لس ټایره</option><option>ټېلر</option><option>ښاري ټکسي</option><option>رکشه</option><option>کرایي موټر</option></select></label>
       <label><span>د تذکرې عکس</span><input id="idPhoto" type="file" accept="image/*"></label>
@@ -432,6 +433,15 @@ document.addEventListener("click",function(e){ if(e.target && e.target.id==="dri
     </div>
     <button type="button" class="btn gold" style="width:100%;margin-top:12px" data-t="sendApproval">د تایید لپاره واستوه</button>
   </div>
+  <div class="card" style="margin-top:12px">
+    <h3 style="margin-top:0">🔑 د تایید شوي موټروان ننوتل</h3>
+    <div class="formgrid">
+      <label><span>موبایل شمېره</span><input id="loginPhone" inputmode="tel"></label>
+      <label><span>پاسورډ</span><input id="loginPassword" type="password" autocomplete="current-password"></label>
+    </div>
+    <button type="button" class="btn gold" style="width:100%;margin-top:12px" id="driverLoginBtn">ننوتل</button>
+  </div>
+  <div id="driverProfile"></div>
   <div id="accountStatus"></div>
 </section>
 </main>
@@ -555,8 +565,8 @@ function captureDriverLocation(){
 }
 async function register(){
   const g=id=>document.getElementById(id);
-  const name=g("regName"),province=g("regProvince"),district=g("regDistrict"),phoneEl=g("regPhone"),idp=g("idPhoto"),self=g("selfie"),vehiclePhoto=g("vehiclePhoto"),service=g("regDriverService"),vehicleType=g("regVehicleType"),driverLocation=g("driverLocation");
-  if(!name?.value||!province?.value||!district?.value||!phoneEl?.value||!idp?.files?.[0]||!self?.files?.[0]||!vehiclePhoto?.files?.[0]||!driverLocation?.dataset?.lat)return toast("نوم، ولایت، ولسوالي، شمېره، تذکره، سلفي، د موټر عکس او دقیق لوکیشن ټول ضروري دي");
+  const name=g("regName"),province=g("regProvince"),district=g("regDistrict"),phoneEl=g("regPhone"),passwordEl=g("regPassword"),idp=g("idPhoto"),self=g("selfie"),vehiclePhoto=g("vehiclePhoto"),service=g("regDriverService"),vehicleType=g("regVehicleType"),driverLocation=g("driverLocation");
+  if(!name?.value||!province?.value||!district?.value||!phoneEl?.value||!passwordEl?.value||passwordEl.value.length<4||!idp?.files?.[0]||!self?.files?.[0]||!vehiclePhoto?.files?.[0]||!driverLocation?.dataset?.lat)return toast("نوم، ولایت، ولسوالي، شمېره، لږ تر لږه ۴ توري/شمېرې پاسورډ، تذکره، سلفي، د موټر عکس او دقیق لوکیشن ټول ضروري دي");
   try{
     toast("عکسونه برابرېږي...");
     const [idPhotoData,selfieData,carPhoto]=await Promise.all([
@@ -564,12 +574,29 @@ async function register(){
       compressPhoto(self.files[0],800,.62),
       compressPhoto(vehiclePhoto.files[0],900,.68)
     ]);
-    db.users.push({id:Date.now(),role:"driver",name:name.value,province:province.value,district:district.value,phone:phoneEl.value,driverService:service?.value||"cargo",vehicleType:vehicleType?.value||"",idPhoto:idPhotoData,selfie:selfieData,vehiclePhoto:carPhoto,lat:Number(driverLocation.dataset.lat),lon:Number(driverLocation.dataset.lon),locationText:driverLocation.value,status:"pending",paidUntil:null});
+    db.users.push({id:Date.now(),role:"driver",name:name.value,province:province.value,district:district.value,phone:phoneEl.value,password:passwordEl.value,driverService:service?.value||"cargo",vehicleType:vehicleType?.value||"",idPhoto:idPhotoData,selfie:selfieData,vehiclePhoto:carPhoto,lat:Number(driverLocation.dataset.lat),lon:Number(driverLocation.dataset.lon),locationText:driverLocation.value,status:"pending",paidUntil:null});
     try{persist()}catch(storageError){db.users.pop();throw storageError}
     toast("د موټروالا حساب د اډمین تایید ته واستول شو");renderAccount();
   }catch(e){console.error(e);toast("عکسونه ډېر غټ وو یا حافظه ډکه ده؛ بیا هڅه وکړه")}
 }
+function driverLogin(){
+  const phone=document.getElementById("loginPhone")?.value.trim();
+  const password=document.getElementById("loginPassword")?.value;
+  if(!phone||!password)return toast("موبایل شمېره او پاسورډ ولیکه");
+  const u=(db.users||[]).find(x=>x.role==="driver"&&x.phone===phone&&x.password===password);
+  if(!u)return toast("شمېره یا پاسورډ ناسم دی");
+  if(u.status!=="approved")return toast("ستاسو حساب لا د اډمین تایید ته انتظار دی");
+  localStorage.setItem("iz_driver_login",String(u.id));
+  renderDriverProfile(); toast("حساب ته بریالي ننوتل");
+}
+function renderDriverProfile(){
+  const box=document.getElementById("driverProfile"); if(!box)return;
+  const id=Number(localStorage.getItem("iz_driver_login"));
+  const u=(db.users||[]).find(x=>x.id===id&&x.role==="driver"&&x.status==="approved");
+  box.innerHTML=u?`<div class="card" style="margin-top:12px">${u.vehiclePhoto?`<img src="${u.vehiclePhoto}" class="vehicle-photo" style="height:170px!important">`:""}<h3>${u.name}</h3><div class="muted">${u.province} • ${u.district} • ${u.phone}</div><div class="muted">${u.driverService==="ride"?"🚕 سواري موټر":"📦 بار موټر"} • ${u.vehicleType||""}</div><p><span class="status ok">تایید شوی</span></p><button type="button" class="btn outline" onclick="localStorage.removeItem('iz_driver_login');renderDriverProfile()">وتل</button></div>`:"";
+}
 function renderAccount(){
+  renderDriverProfile();
   let u=[...(db.users||[])].reverse().find(x=>x.role==="driver"),box=document.getElementById("accountStatus");
   if(box) box.innerHTML=u?`<div class="card"><b>${u.name}</b><p>${T[lang].status}: <span class="status ${u.status==="approved"?"ok":"wait"}">${u.status==="approved"?(lang==="en"?"Approved":lang==="fa"?"تایید شده":"تایید شوی"):(lang==="en"?"Pending":lang==="fa"?"در انتظار":"په انتظار")}</span></p></div>`:"";
 }
@@ -768,6 +795,7 @@ window.addEventListener("error",function(e){console.error(e.error||e.message)});
     if(b.dataset.t==="requestRide"){e.preventDefault();return saveRide();}
     if(b.dataset.t==="saveAd"){e.preventDefault();return savePost();}
     if(b.dataset.t==="sendApproval"){e.preventDefault();return register();}
+    if(b.id==="driverLoginBtn"){e.preventDefault();return driverLogin();}
     if(b.dataset.t==="login"){e.preventDefault();return unlock();}
     if(b.dataset.t==="free"){e.preventDefault();return setFee(false);}
     if(b.dataset.t==="monthly"){e.preventDefault();return setFee(true);}
