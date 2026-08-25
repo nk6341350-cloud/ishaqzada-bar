@@ -70,6 +70,17 @@ nav{z-index:9999!important}
 
 button,select,input,textarea{ -webkit-user-select:auto; user-select:auto; }
 button{ cursor:pointer!important; touch-action:manipulation!important; pointer-events:auto!important; }
+
+.install-help{position:fixed;inset:0;z-index:30000;background:#000a;display:flex;align-items:center;justify-content:center;padding:20px}
+.install-help.hidden{display:none!important}
+.install-help-card{width:min(92vw,420px);background:#0b2238;border:1px solid #35536d;border-radius:22px;padding:22px;color:#fff;box-shadow:0 25px 70px #0008;position:relative;text-align:right}
+.install-help-close{position:absolute;left:14px;top:10px;background:none;border:0;color:#fff;font-size:30px}
+.install-help-icon{text-align:center;font-size:44px}
+.install-help-card h3{text-align:center;margin:6px 0 10px;font-size:22px}
+.install-help-card p{color:#c8d4de;line-height:1.7}
+.install-step{background:#081b2c;border:1px solid #294760;border-radius:13px;padding:11px;margin:8px 0}
+.install-ok{width:100%;margin-top:10px}
+
 </style>
 
 <style id="real-final-fix">
@@ -389,6 +400,20 @@ header{padding:9px 10px!important}
 </div></nav>
 <div id="toast" class="toast"></div>
 
+<div id="installHelp" class="install-help hidden" dir="rtl">
+  <div class="install-help-card">
+    <button type="button" id="closeInstallHelp" class="install-help-close">×</button>
+    <div class="install-help-icon">📲</div>
+    <h3>اپلیکیشن نصب کړه</h3>
+    <p>په iPhone کې د نصب لپاره:</p>
+    <div class="install-step">1️⃣ دا سایټ په Safari کې خلاص کړه.</div>
+    <div class="install-step">2️⃣ د Share ⬆️ تڼۍ ووهه.</div>
+    <div class="install-step">3️⃣ Add to Home Screen وټاکه، بیا Add ووهه.</div>
+    <button type="button" id="closeInstallHelp2" class="btn gold install-ok">سمه ده</button>
+  </div>
+</div>
+
+
 <script>
 const provincesPs=["کابل","کندهار","هرات","بلخ","ننګرهار","هلمند","اروزګان","زابل","فراه","نیمروز","بادغیس","غور","دایکندي","بامیان","غزني","پکتیا","پکتیکا","خوست","لوګر","میدان وردګ","پروان","کاپیسا","پنجشیر","لغمان","کنړ","نورستان","کندز","تخار","بدخشان","بغلان","سمنګان","سرپل","جوزجان","فاریاب"];
 const provincesFa=provincesPs;
@@ -487,24 +512,24 @@ else initApp();
 let deferredInstallPrompt=null;
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;});
 async function installApp(){
-  if(deferredInstallPrompt){
-    deferredInstallPrompt.prompt();
-    try{await deferredInstallPrompt.userChoice}catch(e){}
-    deferredInstallPrompt=null;
+  if(window.matchMedia && window.matchMedia("(display-mode: standalone)").matches){
+    toast("اپلیکیشن لا نصب شوی دی");
     return;
   }
-  const isiPhone=/iPhone|iPad|iPod/i.test(navigator.userAgent);
-  if(isiPhone){
-    alert(lang==="en"
-      ?"Open this site in Safari, tap Share, then Add to Home Screen."
-      :lang==="fa"
-      ?"سایت را در Safari باز کنید، Share را بزنید و Add to Home Screen را انتخاب کنید."
-      :"دا سایټ په Safari کې خلاص کړه، د Share تڼۍ ووهه، بیا Add to Home Screen وټاکه.");
-  }else{
-    alert(lang==="en"?"Use your browser menu and choose Install app / Add to Home screen."
-      :lang==="fa"?"از منوی مرورگر Install app / Add to Home screen را انتخاب کنید."
-      :"د براوزر له مېنو څخه Install app / Add to Home screen وټاکه.");
+  if(window.navigator.standalone===true){
+    toast("اپلیکیشن لا نصب شوی دی");
+    return;
   }
+  if(deferredInstallPrompt){
+    try{
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt=null;
+      return;
+    }catch(e){}
+  }
+  const box=document.getElementById("installHelp");
+  if(box) box.classList.remove("hidden");
 }
 
 function showService(type,btn){
@@ -566,6 +591,16 @@ window.addEventListener("error",function(e){console.error(e.error||e.message)});
 
   document.querySelectorAll('button[data-t="free"]').forEach(function(el){ on(el,function(){setFee(false)}); });
   document.querySelectorAll('button[data-t="monthly"]').forEach(function(el){ on(el,function(){setFee(true)}); });
+})();
+</script>
+
+
+<script>
+(function(){
+  function closeInstall(){const x=document.getElementById("installHelp"); if(x)x.classList.add("hidden");}
+  document.getElementById("closeInstallHelp")?.addEventListener("click",closeInstall);
+  document.getElementById("closeInstallHelp2")?.addEventListener("click",closeInstall);
+  document.getElementById("installHelp")?.addEventListener("click",function(e){if(e.target===this)closeInstall();});
 })();
 </script>
 
