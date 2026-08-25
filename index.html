@@ -192,68 +192,10 @@ header{padding:9px 10px!important}
   }catch(e){}
 })();
 
-(function bindAllControls(){
-  function bind(id,fn){
-    var el=document.getElementById(id);
-    if(!el || el.dataset.bound==="1") return;
-    el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();fn.call(el,e);});
-  }
-
-  bind("installTop",installApp);
-  bind("chooseBar",function(){showService("bar",this)});
-  bind("chooseRide",function(){showService("ride",this)});
-  bind("loadMode",function(){setMode("load")});
-  bind("truckMode",function(){setMode("truck")});
-
-  document.querySelectorAll('button[data-t="haveLoad"]').forEach(function(el){
-    if(el.id==="loadMode" || el.dataset.bound==="1") return;
-    el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();go("post");setMode("load")});
-  });
-  document.querySelectorAll('button[data-t="emptyTruck"]').forEach(function(el){
-    if(el.id==="truckMode" || el.dataset.bound==="1") return;
-    el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();go("post");setMode("truck")});
-  });
-  document.querySelectorAll('button[data-t="installFull"]').forEach(function(el){
-    if(el.dataset.bound==="1") return; el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();installApp()});
-  });
-  document.querySelectorAll('button[data-t="saveAd"]').forEach(function(el){
-    if(el.dataset.bound==="1") return; el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();savePost()});
-  });
-  document.querySelectorAll('button[data-t="sendApproval"]').forEach(function(el){
-    if(el.dataset.bound==="1") return; el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();register()});
-  });
-  document.querySelectorAll('button[data-t="login"]').forEach(function(el){
-    if(el.dataset.bound==="1") return; el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();unlock()});
-  });
-  document.querySelectorAll('button[data-t="requestRide"]').forEach(function(el){
-    if(el.dataset.bound==="1") return; el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();saveRide()});
-  });
-
-  var navs=document.querySelectorAll("nav button");
-  var pages=["home","post","account","admin"];
-  navs.forEach(function(el,i){
-    if(el.dataset.bound==="1") return;
-    el.dataset.bound="1";
-    el.addEventListener("click",function(e){e.preventDefault();go(pages[i],el)});
-  });
-
-  var langEl=document.getElementById("lang");
-  if(langEl && langEl.dataset.bound!=="1"){
-    langEl.dataset.bound="1";
-    langEl.addEventListener("change",function(){setLang(this.value)});
-  }
-})();
 
 </script>
 
+<meta name="app-version" content="buttons-final-20260825-1244">
 </head>
 <body>
 <div class="app">
@@ -586,5 +528,46 @@ window.addEventListener("error",function(e){console.error(e.error||e.message)});
 
 
 </script>
+
+<script id="button-bind-final">
+(function(){
+  function on(el, fn){
+    if(!el) return;
+    el.addEventListener("click", function(e){
+      e.preventDefault();
+      fn.call(el, e);
+    }, {passive:false});
+  }
+
+  on(document.getElementById("installTop"), installApp);
+  on(document.getElementById("chooseBar"), function(){ showService("bar", this); });
+  on(document.getElementById("chooseRide"), function(){ showService("ride", this); });
+  on(document.getElementById("loadMode"), function(){ setMode("load"); });
+  on(document.getElementById("truckMode"), function(){ setMode("truck"); });
+
+  document.querySelectorAll('button[data-t="haveLoad"]').forEach(function(el){
+    if(el.id!=="loadMode") on(el,function(){ go("post"); setMode("load"); });
+  });
+  document.querySelectorAll('button[data-t="emptyTruck"]').forEach(function(el){
+    if(el.id!=="truckMode") on(el,function(){ go("post"); setMode("truck"); });
+  });
+  document.querySelectorAll('button[data-t="requestRide"]').forEach(function(el){ on(el,saveRide); });
+  document.querySelectorAll('button[data-t="installFull"]').forEach(function(el){ on(el,installApp); });
+  document.querySelectorAll('button[data-t="saveAd"]').forEach(function(el){ on(el,savePost); });
+  document.querySelectorAll('button[data-t="sendApproval"]').forEach(function(el){ on(el,register); });
+  document.querySelectorAll('button[data-t="login"]').forEach(function(el){ on(el,unlock); });
+
+  var navButtons=document.querySelectorAll("nav button");
+  var pages=["home","post","account","admin"];
+  navButtons.forEach(function(el,i){ on(el,function(){ go(pages[i],el); }); });
+
+  var langEl=document.getElementById("lang");
+  if(langEl) langEl.addEventListener("change",function(){ setLang(this.value); });
+
+  document.querySelectorAll('button[data-t="free"]').forEach(function(el){ on(el,function(){setFee(false)}); });
+  document.querySelectorAll('button[data-t="monthly"]').forEach(function(el){ on(el,function(){setFee(true)}); });
+})();
+</script>
+
 </body>
 </html>
